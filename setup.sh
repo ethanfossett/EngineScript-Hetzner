@@ -85,7 +85,7 @@ if [[ -d "/usr/local/bin/enginescript" ]]; then
 fi
 
 # EngineScript Git Clone (full clone to allow branch switching)
-git clone https://github.com/EngineScript/EngineScript.git -b master /usr/local/bin/enginescript
+git clone https://github.com/EthanFossett/EngineScript-Hetzner.git -b master /usr/local/bin/enginescript
 
 # Convert line endings
 dos2unix /usr/local/bin/enginescript/*
