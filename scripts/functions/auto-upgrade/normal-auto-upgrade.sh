@@ -21,3 +21,16 @@ verify_installation_completion
 # Start Main Script
 
 # Upgrade Scripts will be found below:
+
+#----------------------------------------------------------------------------------
+# Apply Hetzner Cloud Compatibility Patches (if enabled)
+# This ensures compatibility with Hetzner Cloud and other non-DigitalOcean providers
+# after pulling updates from the main repository
+#----------------------------------------------------------------------------------
+if [[ "${INSTALL_HETZNER_CLOUD_AGENT}" == "1" ]] || [[ -f "/var/log/EngineScript/hetzner-patch.log" ]]; then
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo " Applying Hetzner Cloud Compatibility Patches"
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  /usr/local/bin/enginescript/scripts/functions/auto-upgrade/hetzner-compatibility-patch.sh
+  echo ""
+fi

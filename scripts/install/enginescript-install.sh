@@ -391,6 +391,19 @@ if [[ "${INSTALL_DIGITALOCEAN_REMOTE_CONSOLE}" = "1" ]]; then
   debug_pause "DigitalOcean Remote Console"
 fi
 
+# Hetzner Cloud Monitoring Agent (optional)
+if [[ "${INSTALL_HETZNER_CLOUD_AGENT}" = "1" ]]; then
+  if [[ "${HETZNER_AGENT}" = 1 ]];
+    then
+      echo "Hetzner Cloud Monitoring Agent script has already run."
+    else
+      /usr/local/bin/enginescript/scripts/install/system-misc/hetzner-cloud-install.sh 2>> /tmp/enginescript_install_errors.log
+      echo "HETZNER_AGENT=1" >> /var/log/EngineScript/install-log.log
+  fi
+  print_last_errors
+  debug_pause "Hetzner Cloud Monitoring Agent"
+fi
+
 # PCRE
 if [[ "${PCRE}" = 1 ]];
   then

@@ -74,6 +74,17 @@ echo ""
 
 
 # --------------------------------------------------------
+# Apply Hetzner Cloud Compatibility Patches (if enabled)
+# This runs BEFORE normal-auto-upgrade to ensure patches are applied immediately
+if [[ "${INSTALL_HETZNER_CLOUD_AGENT}" == "1" ]] || [[ -f "/var/log/EngineScript/hetzner-patch.log" ]]; then
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo " Applying Hetzner Cloud Compatibility Patches"
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  /usr/local/bin/enginescript/scripts/functions/auto-upgrade/hetzner-compatibility-patch.sh
+  echo ""
+fi
+
+# --------------------------------------------------------
 # Updating files from previous versions
 /usr/local/bin/enginescript/scripts/functions/auto-upgrade/normal-auto-upgrade.sh
 /usr/local/bin/enginescript/scripts/functions/auto-upgrade/emergency-auto-upgrade.sh

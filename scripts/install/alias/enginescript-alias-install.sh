@@ -29,6 +29,7 @@ alias es.images="/usr/local/bin/enginescript/scripts/functions/cron/optimize-ima
 alias es.info="/usr/local/bin/enginescript/scripts/functions/alias/alias-server-info.sh"
 alias es.install="/usr/local/bin/enginescript/scripts/install/enginescript-install.sh"
 alias es.menu="/usr/local/bin/enginescript/scripts/menu/enginescript-menu.sh"
+alias es.patch="/usr/local/bin/enginescript/scripts/functions/auto-upgrade/hetzner-compatibility-patch.sh"
 alias es.permissions="/usr/local/bin/enginescript/scripts/functions/cron/permissions.sh"
 alias es.restart="/usr/local/bin/enginescript/scripts/functions/alias/alias-restart.sh"
 alias es.sites="/usr/local/bin/enginescript/scripts/functions/alias/alias-sites.sh"

@@ -21,6 +21,21 @@ source /usr/local/bin/enginescript/scripts/functions/shared/enginescript-common.
 
 # Kernel Tweaks
 cp -rf /usr/local/bin/enginescript/config/etc/sysctl.d/60-enginescript.conf /etc/sysctl.d/60-enginescript.conf
+
+# Dynamically detect the primary network interface (works on all cloud providers)
+# This fixes compatibility with Hetzner Cloud and other providers that don't use eth0
+PRIMARY_NIC=$(ip -o -4 route show to default | awk '{print $5}' | head -n1)
+
+if [[ -n "${PRIMARY_NIC}" ]] && [[ "${PRIMARY_NIC}" != "eth0" ]]; then
+  echo "Detected primary network interface: ${PRIMARY_NIC} (not eth0)"
+  echo "Updating sysctl configuration for cloud provider compatibility..."
+
+  # Replace eth0 with the detected interface name
+  sed -i "s/net.ipv6.conf.eth0./net.ipv6.conf.${PRIMARY_NIC}./g" /etc/sysctl.d/60-enginescript.conf
+else
+  echo "Using default network interface: eth0"
+fi
+
 chown -R root:root /etc/sysctl.d/60-enginescript.conf
 chmod 0664 /etc/sysctl.d/60-enginescript.conf
 

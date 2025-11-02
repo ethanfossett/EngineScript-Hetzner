@@ -4,6 +4,61 @@ All notable changes to EngineScript will be documented in this file.
 
 Changes are organized by date, with the most recent changes listed first.
 
+## 2025-11-02
+
+### 🔄 AUTOMATIC COMPATIBILITY PATCHING SYSTEM
+
+- **Auto-Patch on Update**: Introduced automatic post-update patching system
+  - **Seamless Updates**: Automatically reapplies Hetzner/multi-cloud compatibility fixes after each git pull
+  - **Smart Detection**: Only patches when needed, skips already-patched files
+  - **Idempotent Design**: Safe to run multiple times, won't break existing installations
+  - **Comprehensive Logging**: All patch operations logged to `/var/log/EngineScript/hetzner-patch.log`
+  - **Manual Control**: New command `es.patch` to manually trigger compatibility patches
+  - **Automatic Trigger**: Runs during `es.update` and auto-update cron jobs
+  - **Conditional Execution**: Activates when `INSTALL_HETZNER_CLOUD_AGENT=1` or patch log exists
+  - **Four Critical Patches**:
+    1. Nginx HTTP/3 QUIC GSO - Dynamic network interface detection
+    2. Kernel IPv6 configuration - Dynamic network interface detection
+    3. Hetzner Cloud install script - Ensures script exists and is executable
+    4. Main install script - Ensures Hetzner agent support is present
+  - **Backup System**: Creates timestamped backups before patching (e.g., `file.backup.20251102_143022`)
+  - **Status Reporting**: Clear success/failure messages for each patch operation
+
+### ☁️ HETZNER CLOUD SUPPORT
+
+- **Full Hetzner Cloud Compatibility**: Added complete support for Hetzner Cloud VPS
+  - **Hetzner Cloud Agent**: Optional monitoring agent installation for enhanced metrics in Hetzner Cloud Console
+  - **Configuration Options**: Added `INSTALL_HETZNER_CLOUD_AGENT` flag to installation config
+  - **Automatic Detection**: Agent automatically detects if running on Hetzner Cloud infrastructure
+  - **Documentation**: Updated README to list Hetzner Cloud as recommended provider alongside DigitalOcean
+  - **Future-Proof**: Auto-patch system ensures compatibility is maintained through all future updates
+
+### 🐛 CRITICAL BUG FIXES - NETWORK INTERFACE COMPATIBILITY
+
+- **Dynamic Network Interface Detection**: Fixed hardcoded `eth0` interface references
+  - **Nginx HTTP/3 QUIC GSO**: Now dynamically detects primary network interface instead of assuming `eth0`
+    - **Location**: `scripts/install/nginx/nginx-tune.sh:122`
+    - **Impact**: Fixes Nginx failures on Hetzner Cloud and other providers using predictable network names (`ens3`, `ens10`, etc.)
+    - **Solution**: Uses `ip route` to detect default gateway interface automatically
+  - **Kernel IPv6 Configuration**: Now dynamically configures IPv6 settings for detected interface
+    - **Location**: `scripts/install/kernel/kernel-tweaks-install.sh`
+    - **Impact**: Properly applies IPv6 security settings on non-eth0 interfaces
+    - **Solution**: Automatically replaces `eth0` references with detected primary interface in sysctl config
+  - **Error Handling**: Added graceful fallback and logging for interface detection
+  - **Cloud Provider Agnostic**: Works on DigitalOcean, Hetzner Cloud, AWS, GCP, Azure, Vultr, Linode, and any Ubuntu 24.04 VPS
+
+### 📝 PLATFORM NOTES
+
+EngineScript is now fully cloud-agnostic and supports:
+- **DigitalOcean** (traditional `eth0` interface)
+- **Hetzner Cloud** (predictable names: `ens3`, `ens10`, etc.)
+- **AWS EC2** (varies: `eth0`, `ens5`, etc.)
+- **Google Cloud** (typically `ens4`)
+- **Azure** (typically `eth0`)
+- **Vultr, Linode, and other providers**
+
+The hardcoded `eth0` interface was causing Nginx to fail on Hetzner Cloud and other modern cloud providers that use systemd predictable network interface names.
+
 ## 2025-10-23
 
 ### 🖥️ DIGITALOCEAN MONITORING ENHANCEMENT

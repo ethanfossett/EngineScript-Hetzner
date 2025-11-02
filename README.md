@@ -8,6 +8,7 @@
 [![MariaDB 11.8](https://img.shields.io/badge/MariaDB-11.8-003545?logo=mariadb&logoColor=white)](https://mariadb.org/)
 [![Redis](https://img.shields.io/badge/Redis-DC382D?logo=redis&logoColor=white)](https://redis.io/)
 [![DigitalOcean](https://img.shields.io/badge/DigitalOcean-0080FF?logo=digitalocean&logoColor=white)](https://m.do.co/c/e57cc8492285)
+[![Hetzner](https://img.shields.io/badge/Hetzner-D50C2D?logo=hetzner&logoColor=white)](https://www.hetzner.com/cloud)
 [![Cloudflare](https://img.shields.io/badge/Cloudflare-F38020?logo=cloudflare&logoColor=white)](https://cloudflare.com/)
 [![WordPress](https://img.shields.io/badge/WordPress-21759B?logo=wordpress&logoColor=white)](https://wordpress.org/)
 [![WP-CLI](https://img.shields.io/badge/WP--CLI-21759B?logo=wordpress&logoColor=white)](https://wp-cli.org/)
@@ -25,10 +26,12 @@ EngineScript Release Stage: **Beta**
 
 EngineScript is meant to be run as the root user on a fresh VPS. Setup will remove existing Apache, Nginx, PHP, and MySQL installations. Things **will** break if you run this script on a VPS that has already been configured.
 
-- **A Newly Created VPS** *([Digital Ocean](https://m.do.co/c/e57cc8492285) droplet recommended)*
+- **A Newly Created VPS** *([Digital Ocean](https://m.do.co/c/e57cc8492285) or [Hetzner Cloud](https://www.hetzner.com/cloud) recommended)*
 - **Ubuntu 24.04 (64-Bit)**
-- **2GB RAM**
+- **2GB RAM** *(4GB+ recommended)*
 - **Cloudflare** *(Free or Paid)*
+
+> **Hetzner Cloud Users**: EngineScript includes automatic compatibility patching for Hetzner and other modern cloud providers. See [Hetzner Cloud Compatibility Guide](HETZNER_COMPATIBILITY.md) for details.
 
 ----------
 
@@ -154,10 +157,11 @@ Want to support EngineScript? [Sponsor this project](https://github.com/sponsors
 |**`es.info`**       |Displays server information|
 |**`es.install`**    |Runs the main EngineScript installation script|
 |**`es.menu`**       |EngineScript menu|
+|**`es.patch`**      |Manually apply Hetzner/multi-cloud compatibility patches *(automatic after updates)*|
 |**`es.permissions`**|Resets the permissions of all files in the WordPress directory *(server-wide)*|
 |**`es.restart`**    |Restart Nginx and PHP|
 |**`es.sites`**      |Lists all WordPress sites installed on the server with status information|
-|**`es.update`**     |Update EngineScript|
+|**`es.update`**     |Update EngineScript *(auto-applies compatibility patches)*|
 |**`es.variables`**  |Opens the variable file in Nano. This file resets when EngineScript is updated|
 
 ### Admin Control Panel Features

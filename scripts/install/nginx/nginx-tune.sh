@@ -119,8 +119,17 @@ if [[ "${INSTALL_HTTP3}" = 1 ]]; then
 fi
 
 # HTTP3 - QUIC GSO (requires hardware support check)
-if [[ "${INSTALL_HTTP3}" = 1 ]] && ethtool -k eth0 | grep "tx-gso-robust: on"; then
-  sed -i "s|#quic_gso on|quic_gso on|g" /etc/nginx/nginx.conf
+# Dynamically detect the primary network interface (works on all cloud providers)
+if [[ "${INSTALL_HTTP3}" = 1 ]]; then
+  # Get the primary network interface (not lo, not virtual)
+  PRIMARY_NIC=$(ip -o -4 route show to default | awk '{print $5}' | head -n1)
+
+  if [[ -n "${PRIMARY_NIC}" ]] && ethtool -k "${PRIMARY_NIC}" 2>/dev/null | grep -q "tx-gso-robust: on"; then
+    sed -i "s|#quic_gso on|quic_gso on|g" /etc/nginx/nginx.conf
+    echo "QUIC GSO enabled on interface ${PRIMARY_NIC}"
+  else
+    echo "QUIC GSO not available on interface ${PRIMARY_NIC} or interface not found, skipping..."
+  fi
 fi
 
 

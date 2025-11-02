@@ -97,6 +97,13 @@ INSTALL_DIGITALOCEAN_REMOTE_CONSOLE=0
 # Recommended: 0 (unless on DigitalOcean)
 INSTALL_DIGITALOCEAN_METRICS_AGENT=0
 
+## Hetzner Cloud Monitoring Agent ##
+# Install Hetzner Cloud's Monitoring Agent for enhanced server metrics
+# This enables detailed CPU, memory, disk, and bandwidth metrics in the Hetzner Cloud Console
+# Only useful if your server is hosted on Hetzner Cloud
+# Recommended: 1 (if on Hetzner Cloud)
+INSTALL_HETZNER_CLOUD_AGENT=0
+
 
 ########################
 # EngineScript Updates #
